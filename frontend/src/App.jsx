@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
-const API_BASE = "http://localhost:8080/api";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
 
 const initialVacacion = {
   pais: "",
-  ciudad: "",
   lugarTuristico: "",
   descripcion: "",
 };
@@ -138,7 +137,6 @@ function App() {
     setVacacionEditandoId(vacacion.id);
     setVacacionForm({
       pais: vacacion.pais,
-      ciudad: vacacion.ciudad,
       lugarTuristico: vacacion.lugarTuristico,
       descripcion: vacacion.descripcion || "",
     });
@@ -235,7 +233,6 @@ function App() {
 
             <form onSubmit={guardarVacacion} className="grid">
               <input name="pais" placeholder="Pais" value={vacacionForm.pais} onChange={onVacacionInput} required />
-              <input name="ciudad" placeholder="Ciudad" value={vacacionForm.ciudad} onChange={onVacacionInput} required />
               <input
                 name="lugarTuristico"
                 placeholder="Lugar turistico"
@@ -268,9 +265,10 @@ function App() {
                   <li key={vacacion.id}>
                     <div>
                       <strong>
-                        {vacacion.pais} - {vacacion.ciudad}
+                        {vacacion.pais} - Capital: {vacacion.ciudad}
                       </strong>
                       <p>{vacacion.lugarTuristico}</p>
+                      <p>Poblacion actual: {(vacacion.poblacionActual || 0).toLocaleString()}</p>
                       {vacacion.descripcion && <small>{vacacion.descripcion}</small>}
                     </div>
                     <div className="acciones">

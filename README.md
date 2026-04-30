@@ -1,48 +1,65 @@
 # Dream Vacation (Spring Boot + React)
 
-Aplicacion para gestionar vacaciones sonadas. Incluye backend REST con Spring Boot y frontend en React para login, registro y CRUD de vacaciones.
+Aplicacion de ejemplo donde un usuario guarda un destino turistico y el sistema completa informacion del pais usando Rest Countries:
+- pais
+- ciudad capital
+- poblacion actual
 
-## Que hace cada parte
+## Estructura del proyecto
 
-### Backend (`src/main/java/com/dreamvacation`)
-- `DreamVacationApplication`: punto de arranque de Spring Boot.
-- `controller/`: expone endpoints HTTP (`AuthController`, `VacacionController`).
-- `service/`: contiene la logica de negocio (`AuthService`, `VacacionService`).
-- `repository/`: acceso a datos con Spring Data JPA.
-- `model/`: entidades JPA (`Usuario`, `Vacacion`).
-- `dto/`: objetos para peticiones/respuestas de autenticacion.
+- `backend`: API REST en Spring Boot
+- `frontend`: app React (Vite)
+- `docker-compose.yml`: orquestacion de base de datos, backend y frontend
 
-### Configuracion (`src/main/resources`)
-- `application.properties`: puerto del backend, conexion a PostgreSQL y parametros JPA.
-- `data.sql`: datos de ejemplo iniciales.
+## Integracion Rest Countries
 
-### Frontend (`frontend`)
-- App en React + Vite.
-- Flujo incluido:
-  - login de usuario
-  - registro de usuario
-  - listar vacaciones
-  - crear, editar y eliminar vacaciones
-- Archivo principal: `frontend/src/App.jsx`.
+Al crear o actualizar una vacacion, el backend consulta:
 
-## Base de datos (PostgreSQL)
+`https://restcountries.com/v3.1/name/{pais}?fields=name,capital,population`
 
-Se migro la configuracion de H2 a PostgreSQL con estos datos:
+Con eso, la API guarda automaticamente la capital y la poblacion actual del pais.
 
-- Host: `localhost`
-- Puerto: `5432`
-- Base de datos: `dream_vacation`
-- Usuario: `dream_vacation_user`
-- Password: `IsjZbzOkzevnr1JMHREsj7zG3gaDJm9U`
+## Variables de entorno
 
-Configuracion aplicada en `src/main/resources/application.properties`:
+Las credenciales de base de datos y puertos ya no estan hardcodeadas en el README.
+Ahora se leen desde el archivo `.env` en la raiz del proyecto.
 
-- `spring.datasource.url=jdbc:postgresql://localhost:5432/dream_vacation`
-- `spring.datasource.username=dream_vacation_user`
-- `spring.datasource.password=...`
-- `spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect`
+Variables usadas:
+- `DB_HOST`
+- `DB_PORT`
+- `DB_NAME`
+- `DB_USER`
+- `DB_PASSWORD`
+- `BACKEND_PORT`
+- `FRONTEND_PORT`
 
-Tambien se actualizo `pom.xml` para usar el driver `org.postgresql:postgresql`.
+## Ejecucion local sin Docker
+
+### Backend
+
+```bash
+cd backend
+mvn clean spring-boot:run
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## Ejecucion con Docker Compose
+
+```bash
+docker compose up --build
+```
+
+Servicios:
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:8080`
+- PostgreSQL: `localhost:5432`
 
 ## Endpoints principales
 
@@ -57,38 +74,3 @@ Tambien se actualizo `pom.xml` para usar el driver `org.postgresql:postgresql`.
 - `POST /api/vacaciones/usuario/{usuarioId}`
 - `PUT /api/vacaciones/{id}`
 - `DELETE /api/vacaciones/{id}`
-
-## Como ejecutar
-
-## 1) Backend
-
-Requisitos:
-- Java 17+
-- Maven 3.6+
-- PostgreSQL activo con la base/usuario indicados
-
-Comandos:
-
-```bash
-mvn clean spring-boot:run
-```
-
-Backend disponible en:
-- `http://localhost:8080`
-
-## 2) Frontend React
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Frontend disponible en:
-- `http://localhost:5173`
-
-## Notas
-
-- El frontend consume la API en `http://localhost:8080/api`.
-- Si cambias credenciales de PostgreSQL, actualiza `application.properties`.
-- `target/` y `frontend/node_modules/` estan ignorados en git.
