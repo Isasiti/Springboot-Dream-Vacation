@@ -15,64 +15,28 @@ public class AuthService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    /**
-     * Autentica un usuario con nombre de usuario y contraseña
-     * @param loginRequest Datos de login
-     * @return LoginResponse con el resultado de la autenticación
-     */
     public LoginResponse login(LoginRequest loginRequest) {
-        Optional<Usuario> usuario = usuarioRepository.findByNombreUsuario(loginRequest.getNombreUsuario());
-        
+        Optional<Usuario> usuario = usuarioRepository.findById(loginRequest.getUsuario());
+
         if (usuario.isPresent()) {
-            Usuario usuarioEncontrado = usuario.get();
-            // Validar contraseña (en producción usar BCrypt)
-            if (usuarioEncontrado.getContrasena().equals(loginRequest.getContrasena())) {
+            Usuario encontrado = usuario.get();
+            if (encontrado.getContrasena().equals(loginRequest.getContrasena())) {
                 return new LoginResponse(
-                    usuarioEncontrado.getId(),
-                    usuarioEncontrado.getNombreUsuario(),
-                    usuarioEncontrado.getEmail(),
+                    encontrado.getUsuario(),
                     "Login exitoso",
                     true
                 );
-            } else {
-                return new LoginResponse(
-                    null, null, null,
-                    "Contraseña incorrecta",
-                    false
-                );
             }
-        } else {
             return new LoginResponse(
-                null, null, null,
-                "Usuario no encontrado",
+                null,
+                "Contraseña incorrecta",
                 false
             );
         }
-    }
-
-    /**
-     * Registra un nuevo usuario
-     * @param usuario Datos del usuario a registrar
-     * @return Usuario registrado
-     */
-    public Usuario registrar(Usuario usuario) {
-        // Verificar si el usuario ya existe
-        if (usuarioRepository.findByNombreUsuario(usuario.getNombreUsuario()).isPresent()) {
-            throw new IllegalArgumentException("El nombre de usuario ya existe");
-        }
-        if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("El email ya está registrado");
-        }
-        
-        return usuarioRepository.save(usuario);
-    }
-
-    /**
-     * Obtiene un usuario por su ID
-     * @param id ID del usuario
-     * @return Usuario encontrado
-     */
-    public Optional<Usuario> obtenerUsuarioPorId(Long id) {
-        return usuarioRepository.findById(id);
+        return new LoginResponse(
+            null,
+            "Usuario no encontrado",
+            false
+        );
     }
 }

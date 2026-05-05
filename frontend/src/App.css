@@ -101,3 +101,17 @@ button.danger {
   flex-direction: column;
   gap: 0.4rem;
 }
+
+.hola {
+  text-align: center;
+}
+
+.hola h2 {
+  font-size: 1.75rem;
+  margin: 0 0 0.75rem;
+}
+
+.hola .sub {
+  margin: 0 0 1rem;
+  color: #4b5563;
+}
