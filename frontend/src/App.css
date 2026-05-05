@@ -1,0 +1,117 @@
+.app {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  color: #1f2937;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.grid {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+  border-radius: 8px;
+}
+
+input,
+textarea {
+  border: 1px solid #d1d5db;
+  padding: 0.6rem 0.7rem;
+}
+
+textarea {
+  min-height: 76px;
+  resize: vertical;
+}
+
+button {
+  border: none;
+  padding: 0.55rem 0.75rem;
+  background: #2563eb;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #6b7280;
+}
+
+button.danger {
+  background: #dc2626;
+}
+
+.estado {
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.estado.ok {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.estado.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.lista li {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.hola {
+  text-align: center;
+}
+
+.hola h2 {
+  font-size: 1.75rem;
+  margin: 0 0 0.75rem;
+}
+
+.hola .sub {
+  margin: 0 0 1rem;
+  color: #4b5563;
+}

@@ -48,6 +48,8 @@ logs/
 .env
 *.properties.local
 application-local.properties
+frontend/node_modules/
+frontend/dist/
 
 # Others
 *.class
